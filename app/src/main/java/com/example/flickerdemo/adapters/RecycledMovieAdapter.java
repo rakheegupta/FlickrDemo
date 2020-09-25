@@ -54,10 +54,16 @@ public class RecycledMovieAdapter extends RecyclerView.Adapter<MovieViewHolder> 
         Movie movie = mMovieList.get(position);
 
         holder.mIvMovie.setImageResource(0);
-
+        String imageUri=movie.getPosterPath();
+        int orientation = holder.mIvMovie.getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            imageUri = movie.getPosterPath();
+        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            imageUri = movie.getBackdropPath();
+        }
         holder.mTvTitle.setText(movie.getOriginalTitle());
         holder.mTvOverview.setText(movie.getOverview());
-        String imageUri=movie.getPosterPath();
+
         GlideApp.with(holder.mIvMovie.getContext())
                 .load(imageUri)
                 .override((int)holder.mIvMovie.getResources().getDimension(R.dimen.image_width), (int)holder.mIvMovie.getResources().getDimension(R.dimen.image_height))
