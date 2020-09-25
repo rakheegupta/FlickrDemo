@@ -65,6 +65,7 @@ public class RecycledMovieAdapter extends RecyclerView.Adapter<MovieViewHolder> 
                 .into(holder.mIvMovie);
     }
 
+    // Test git
     @Override
     public int getItemCount() {
         return mMovieList.size();
