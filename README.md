@@ -38,8 +38,10 @@ The following **additional** features are implemented:
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
-
+Portrait Mode
 <img src='https://github.com/rakheegupta/FlickrDemo/blob/master/flicker.gif' title='Video Walkthrough' width='300' alt='Video Walkthrough' />
+Landscape mode
+<img src='https://github.com/rakheegupta/FlickrDemo/blob/master/flicker_land.gif' title='Video Walkthrough' width='600' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
