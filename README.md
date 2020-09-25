@@ -10,7 +10,7 @@ Time spent: 10 hours spent in total
 The following **required** functionality is completed:
 
 * [X] User can **scroll through current movies** from the Movie Database API
-* [X ] Layout is optimized with the [ViewHolder](http://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView#improving-performance-with-the-viewholder-pattern) pattern.
+* [X] Layout is optimized with the [ViewHolder](http://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView#improving-performance-with-the-viewholder-pattern) pattern.
 * [ ] For each movie displayed, user can see the following details:
   * [X] Title, Poster Image, Overview (Portrait mode)
   * [ ] Title, Backdrop Image, Overview (Landscape mode)
@@ -39,22 +39,27 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://github.com/rakheegupta/FlickrDemo/blob/master/flicker.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/rakheegupta/FlickrDemo/blob/master/flicker.gif' title='Video Walkthrough' width='300' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+1. Understanding Layouts, linear, constraints, RecyclerListview
+2. Understand dimensions, using picasso and glide
+3. UNderstanding Json, networkrequests
+4. understanding viewholder patterns, adapters
+5. Setting up Git
 
 ## Open-source libraries used
 
 - [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
 - [Picasso](http://square.github.io/picasso/) - Image loading and caching library for Android
+- [Glide](https://github.com/bumptech/glide) -  Image loading and caching library for Android
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright [xxxx] [xxxxxx]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
