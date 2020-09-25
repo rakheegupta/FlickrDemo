@@ -61,8 +61,8 @@ public class RecycledMovieAdapter extends RecyclerView.Adapter<MovieViewHolder> 
         GlideApp.with(holder.mIvMovie.getContext())
                 .load(imageUri)
                 .override((int)holder.mIvMovie.getResources().getDimension(R.dimen.image_width), (int)holder.mIvMovie.getResources().getDimension(R.dimen.image_height))
-
-                .into(holder.mIvMovie);
+                .into(holder.mIvMovie)
+        ;
     }
 
     // Test git
