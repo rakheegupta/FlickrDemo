@@ -36,4 +36,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'com.squareup.picasso:picasso:2.6.0-SNAPSHOT'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    //glide rounded corners
+    implementation 'jp.wasabeef:glide-transformations:4.1.0'
 }

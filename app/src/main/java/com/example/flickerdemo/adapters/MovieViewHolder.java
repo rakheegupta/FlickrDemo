@@ -2,6 +2,7 @@ package com.example.flickerdemo.adapters;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,7 @@ public class MovieViewHolder extends RecyclerView.ViewHolder {
     public ImageView mIvMovie;
     public TextView mTvTitle;
     public TextView mTvOverview;
+    public RatingBar mRbStars;
 
     // We also create a constructor that accepts the entire item row
     // and does the view lookups to find each subview
@@ -28,5 +30,6 @@ public class MovieViewHolder extends RecyclerView.ViewHolder {
         mIvMovie = (ImageView) itemView.findViewById(R.id.ivMovie);
         mTvTitle =(TextView)itemView.findViewById(R.id.tvMovieTitle);
         mTvOverview=(TextView)itemView.findViewById(R.id.tvOverview);
+        mRbStars=(RatingBar)itemView.findViewById(R.id.rbStars);
     }
 }

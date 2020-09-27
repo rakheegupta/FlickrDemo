@@ -2,34 +2,33 @@ package com.example.flickerdemo.adapters;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flickerdemo.GlideApp;
-import com.example.flickerdemo.MyAppGlideModule;
 import com.example.flickerdemo.R;
 import com.example.flickerdemo.models.Movie;
-import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class RecycledMovieAdapter extends RecyclerView.Adapter<MovieViewHolder> {
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
+public class RecycledMovieAdapter extends RecyclerView.Adapter
+        <MovieViewHolder> {
 
     // Store a member variable for the MOvies
     private List<Movie> mMovieList;
+    Context mContext;
+    private final int  LESS_POPULAR = 0,POPULAR = 1;
 
-    public RecycledMovieAdapter(List<Movie> movies){
+    public RecycledMovieAdapter(Context context,List<Movie> movies){
         mMovieList=movies;
+        mContext=context;
     }
 
     @NonNull
@@ -39,38 +38,72 @@ public class RecycledMovieAdapter extends RecyclerView.Adapter<MovieViewHolder> 
 
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
+        MovieViewHolder viewHolder;
 
-        // Inflate the custom layout
         View movieView = inflater.inflate(R.layout.movie_list_item, parent, false);
-
         // Return a new holder instance
-        MovieViewHolder viewHolder = new MovieViewHolder(movieView);
+        viewHolder = new MovieViewHolder(movieView);
         return viewHolder;
+
+        /*
+        switch (viewType) {
+            case LESS_POPULAR:
+                View movieView = inflater.inflate(R.layout.movie_list_item, parent, false);
+                // Return a new holder instance
+                viewHolder = new MovieViewHolder(movieView);
+
+            default:
+                View popularMovieView = inflater.inflate(R.layout.movie_list_item, parent, false);
+                viewHolder = new FiveStarMovieViewHolder(popularMovieView);
+        }
+        return viewHolder;
+
+         */
     }
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
+
         //prepare a movie item of the list
         Movie movie = mMovieList.get(position);
 
         holder.mIvMovie.setImageResource(0);
         String imageUri=movie.getPosterPath();
-        int orientation = holder.mIvMovie.getResources().getConfiguration().orientation;
+
+        int orientation = mContext.getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             imageUri = movie.getPosterPath();
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             imageUri = movie.getBackdropPath();
         }
-        
-        holder.mTvTitle.setText(movie.getOriginalTitle());
-        holder.mTvOverview.setText(movie.getOverview());
+        double stars = movie.getRating();
+        holder.mRbStars.setNumStars((int)stars/2);
 
-        GlideApp.with(holder.mIvMovie.getContext())
-                .load(imageUri)
-                .override((int)holder.mIvMovie.getResources().getDimension(R.dimen.image_width), (int)holder.mIvMovie.getResources().getDimension(R.dimen.image_height))
-                .placeholder(R.drawable.ic_launcher_foreground)
-                .into(holder.mIvMovie)
-        ;
+         switch (holder.getItemViewType()) {
+             case LESS_POPULAR:
+                 holder.mTvTitle.setText(movie.getOriginalTitle());
+                 holder.mTvOverview.setText(movie.getOverview());
+                 GlideApp.with(holder.mIvMovie.getContext())
+                         .load(imageUri)
+                         .override((int) mContext.getResources().getDimension(R.dimen.image_width), (int) mContext.getResources().getDimension(R.dimen.image_height))
+                         .placeholder(R.drawable.ic_launcher_foreground)
+                         .transform(new RoundedCornersTransformation(30, 10))
+                         .into(holder.mIvMovie);
+                 break;
+             default:
+                 imageUri = movie.getBackdropPath();
+                 holder.mTvTitle.setText("");
+                 holder.mTvOverview.setText("");
+                 //holder.mIvMovie.getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                 //holder.mIvMovie.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
+                 //holder.mIvMovie.requestLayout();
+                 GlideApp.with(holder.mIvMovie.getContext())
+                         .load(imageUri)
+                         .override((int) mContext.getResources().getDimension(R.dimen.big_image_width), (int) mContext.getResources().getDimension(R.dimen.big_image_height))
+                         .transform(new RoundedCornersTransformation(30, 10))
+                         .placeholder(R.drawable.ic_launcher_foreground)
+                         .into(holder.mIvMovie);
+         }
     }
 
     // Test git
@@ -79,8 +112,16 @@ public class RecycledMovieAdapter extends RecyclerView.Adapter<MovieViewHolder> 
         return mMovieList.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        double stars = mMovieList.get(position).getRating();
+        if (stars<7)
+            return LESS_POPULAR;
+        else
+            return POPULAR;
+    }
 
-//listview implememntation
+    //listview implememntation
     /*
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         //prepare a movie item of the list

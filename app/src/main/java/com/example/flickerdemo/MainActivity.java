@@ -26,6 +26,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Flicker Async http";
+    //https://api.themoviedb.org/3/movie/now_playing?api_key=69694a19e98df7f5c79b13285d536102
     String url="https://api.themoviedb.org/3/movie/now_playing?";
     String key ="69694a19e98df7f5c79b13285d536102";
 
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         movies=new ArrayList<>();
         RecyclerView rvItems=(RecyclerView) findViewById(R.id.rvMovies);
-        final RecycledMovieAdapter recycledMovieListAdapter = new RecycledMovieAdapter(movies);
+        final RecycledMovieAdapter recycledMovieListAdapter = new RecycledMovieAdapter(this,movies);
         rvItems.setAdapter(recycledMovieListAdapter);
         rvItems.setLayoutManager(new LinearLayoutManager(this));
 
