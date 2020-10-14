@@ -1,17 +1,22 @@
 package com.example.flickerdemo.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flickerdemo.GlideApp;
 import com.example.flickerdemo.R;
+import com.example.flickerdemo.SummaryActivity;
 import com.example.flickerdemo.models.Movie;
 
 import java.util.List;
@@ -19,7 +24,7 @@ import java.util.List;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class RecycledMovieAdapter extends RecyclerView.Adapter
-        <MovieViewHolder> {
+        <RecycledMovieAdapter.MovieViewHolder> {
 
     // Store a member variable for the MOvies
     private List<Movie> mMovieList;
@@ -38,11 +43,9 @@ public class RecycledMovieAdapter extends RecyclerView.Adapter
 
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        MovieViewHolder viewHolder;
-
         View movieView = inflater.inflate(R.layout.movie_list_item, parent, false);
         // Return a new holder instance
-        viewHolder = new MovieViewHolder(movieView);
+        MovieViewHolder viewHolder = new MovieViewHolder(movieView);
         return viewHolder;
 
         /*
@@ -94,10 +97,7 @@ public class RecycledMovieAdapter extends RecyclerView.Adapter
                  imageUri = movie.getBackdropPath();
                  holder.mTvTitle.setText("");
                  holder.mTvOverview.setText("");
-                 //holder.mIvMovie.getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
-                 //holder.mIvMovie.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
-                 //holder.mIvMovie.requestLayout();
-                 GlideApp.with(holder.mIvMovie.getContext())
+                 GlideApp.with(mContext)
                          .load(imageUri)
                          .override((int) mContext.getResources().getDimension(R.dimen.big_image_width), (int) mContext.getResources().getDimension(R.dimen.big_image_height))
                          .transform(new RoundedCornersTransformation(30, 10))
@@ -121,50 +121,38 @@ public class RecycledMovieAdapter extends RecyclerView.Adapter
             return POPULAR;
     }
 
-    //listview implememntation
-    /*
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        //prepare a movie item of the list
-        Movie movie = getItem(position);
+    public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        //inflate if the view is null
-        if (convertView==null){
-            LayoutInflater inflater =LayoutInflater.from(getContext());
-            convertView=inflater.inflate(R.layout.movie_list_item,parent,false);
+        // Your holder should contain a member variable
+        // for any view that will be set as you render a row
 
-            // Create a new ViewHolder
-            MovieViewHolder movieViewHolder = new MovieViewHolder();
-            movieViewHolder.ivMovie=(ImageView) convertView.findViewById(R.id.ivMovie);
-            movieViewHolder.tvTitle =(TextView) convertView.findViewById(R.id.tvMovieTitle);
-            movieViewHolder.tvOverview = (TextView) convertView.findViewById(R.id.tvOverview);
-            convertView.setTag(movieViewHolder);
+        public ImageView mIvMovie;
+        public TextView mTvTitle;
+        public TextView mTvOverview;
+        public RatingBar mRbStars;
+
+        // We also create a constructor that accepts the entire item row
+        // and does the view lookups to find each subview
+        public MovieViewHolder(View itemView){
+            // Stores the itemView in a public final member variable that can be used
+            // to access the context from any ViewHolder instance.
+            super(itemView);
+            mIvMovie = (ImageView) itemView.findViewById(R.id.ivMovie);
+            mTvTitle =(TextView)itemView.findViewById(R.id.tvMovieTitle);
+            mTvOverview=(TextView)itemView.findViewById(R.id.tvOverview);
+            mRbStars=(RatingBar)itemView.findViewById(R.id.rbStars);
+            itemView.setOnClickListener(this);
         }
 
-        //retrieve the viewHolder
-        MovieViewHolder movieViewHolder= (MovieViewHolder) convertView.getTag();
-
-        //populate the views
-        movieViewHolder.ivMovie.setImageResource(0);
-        movieViewHolder.tvTitle.setText(movie.getOriginalTitle());
-        movieViewHolder.tvOverview.setText(movie.getOverview());
-
-        String imageUri="";
-        int orientation =parent.getResources().getConfiguration().orientation;
-        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            imageUri = movie.getPosterPath();
-        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            imageUri = movie.getBackdropPath();
+        public void onClick(View view){
+            int position =  getAdapterPosition();
+            if(position != RecyclerView.NO_POSITION){
+                Movie movie=mMovieList.get(position);
+                //startActivitySummary
+                Intent intent  =new Intent(mContext, SummaryActivity.class);
+                intent.putExtra("selected_movie",movie);
+                mContext.startActivity(intent);
+            }
         }
-        //using picasso
-        //Picasso.with(getContext()).load(imageUri).into(movieViewHolder.ivMovie);
-        //using glide
-        GlideApp.with(getContext())
-                .load(imageUri)
-                .override((int)parent.getResources().getDimension(R.dimen.image_width), (int)parent.getResources().getDimension(R.dimen.image_height))
-                .into(movieViewHolder.ivMovie);
-        return convertView;
     }
-
-     */
-
 }

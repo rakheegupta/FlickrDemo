@@ -12,6 +12,5 @@ public class FiveStarMovieViewHolder extends RecyclerView.ViewHolder {
     FiveStarMovieViewHolder(View view){
         super(view);
         mIvMovie = (ImageView) itemView.findViewById(R.id.ivMovie);
-
     }
 }
